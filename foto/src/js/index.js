@@ -8,7 +8,7 @@ class App extends React.Component {
         var parts = path && path.split("/");
         parts && !parts[parts.length - 1] && parts.pop();
         parts && !parts[0] && parts.shift();
-        return parts;
+        return parts || [];
     }
     match(matcher) {
         var path = this.state.path;
