@@ -5,7 +5,7 @@ const e = React.createElement;
 class App extends React.Component {
     render() {
         return (
-            <div>Goodbye</div>
+            <div>hi</div>
         )
     }
 }
