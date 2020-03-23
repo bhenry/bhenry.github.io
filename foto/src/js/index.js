@@ -11,7 +11,7 @@ class App extends React.Component {
         return parts;
     }
     match(matcher) {
-        var path = this.readURL();
+        var path = this.state.path;
         var path_params = {}
         if (path.length !== matcher.length) {
             return false;
@@ -42,6 +42,10 @@ class App extends React.Component {
         if (this.match(["home"])) {
             return (
                 <div>home</div>
+            )
+        } else if (this.match(["about"])) {
+            return (
+                <div>about</div>
             )
         } else {
             return (
