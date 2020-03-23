@@ -40,9 +40,7 @@ class App extends React.Component {
     }
     render() {
         if (this.match(["home"])) {
-            return (
-                <div>home</div>
-            )
+            return <Home/>
         } else if (this.match(["about"])) {
             return (
                 <div>about</div>
