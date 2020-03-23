@@ -12,7 +12,7 @@ class App extends React.Component {
     }
     match(matcher) {
         var path = this.state.path;
-        var path_params = {}
+        var path_params = {};
         if (path.length !== matcher.length) {
             return false;
         }
@@ -40,14 +40,14 @@ class App extends React.Component {
     }
     render() {
         if (this.match(["home"])) {
-            return <Home/>
+            return <Home />
         } else if (this.match(["about"])) {
             return (
-                <div>about</div>
+                <About />
             )
         } else {
             return (
-                <div>Not found</div>
+                <NotFound />
             )
         }
     }
