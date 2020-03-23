@@ -10,8 +10,12 @@ class App extends React.Component {
         parts && !parts[0] && parts.shift();
         return parts;
     }
-    match(path, matcher) {
+    match(matcher) {
+        var path = this.readURL();
         var path_params = {}
+        if (path.length !== matcher.length) {
+            return false;
+        }
         for (var i = 0; i < matcher.length; i++) {
             if (matcher[i].startsWith("?")){
                 path_params[matcher[i].substring(1)] = path[i];
@@ -19,8 +23,6 @@ class App extends React.Component {
                 return false;
             }
         }
-        console.log(path_params);
-        path_params["codeWord"] = "wtf";
         return path_params;
     }
     constructor(props) {
@@ -37,7 +39,7 @@ class App extends React.Component {
        };
     }
     render() {
-        if (this.match(this.readURL(), ["home"])) {
+        if (this.match(["home"])) {
             return (
                 <div>home</div>
             )
