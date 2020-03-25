@@ -1,7 +1,10 @@
 class NotFound extends React.Component {
     render() {
         return (
-            <Headline text="Page Not Found" />
+            <div>
+                <Headline text="Page Not Found" />
+                <p>{this.props.url}</p>
+            </div>
         )
     }
 }

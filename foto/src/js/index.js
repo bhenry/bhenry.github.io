@@ -3,13 +3,14 @@
 const e = React.createElement;
 
 const matchers = [
+    [[], Home],
     [["home"], Home],
     [["about"], About],
     [["about", "?id"], About]
 ];
 
 class App extends React.Component {
-    readURL() {
+    readPath() {
         var path = location.href && location.href.split("#")[1];
         var parts = path && path.split("/");
         parts && !parts[parts.length - 1] && parts.pop();
@@ -39,18 +40,18 @@ class App extends React.Component {
                 return [view, params];
             }
         }
-        return [NotFound, {path: this.state.path}];
+        return [NotFound, {url: location.href}];
     }
     constructor(props) {
         super(props);
         this.state = {
-            path: this.readURL()
+            path: this.readPath()
         };
     }
     componentDidMount(props) {
         window.onhashchange = () => {
             this.setState({
-                path: this.readURL()
+                path: this.readPath()
             });
        };
     }
