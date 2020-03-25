@@ -2,6 +2,12 @@
 
 const e = React.createElement;
 
+const matchers = [
+    [["home"], Home],
+    [["about"], About],
+    [["about", "?id"], About]
+];
+
 class App extends React.Component {
     readURL() {
         var path = location.href && location.href.split("#")[1];
@@ -12,18 +18,28 @@ class App extends React.Component {
     }
     match(matcher) {
         var path = this.state.path;
-        var path_params = {};
+        var params = { url: location.href };
         if (path.length !== matcher.length) {
             return false;
         }
-        for (var i = 0; i < matcher.length; i++) {
+        for (let i = 0; i < matcher.length; i++) {
             if (matcher[i].startsWith("?")){
-                path_params[matcher[i].substring(1)] = path[i];
+                params[matcher[i].substring(1)] = path[i];
             } else if (matcher[i] !== path[i]) {
                 return false;
             }
         }
-        return path_params;
+        return params;
+    }
+    resolve() {
+        for (let i = 0; i < matchers.length; i++) {
+            let [matcher, view] = matchers[i];
+            let params = this.match(matcher);
+            if (params) {
+                return [view, params];
+            }
+        }
+        return [NotFound, {path: this.state.path}];
     }
     constructor(props) {
         super(props);
@@ -39,17 +55,8 @@ class App extends React.Component {
        };
     }
     render() {
-        if (this.match(["home"])) {
-            return <Home />
-        } else if (this.match(["about"])) {
-            return (
-                <About />
-            )
-        } else {
-            return (
-                <NotFound />
-            )
-        }
+        var [view, props] = this.resolve();
+        return e(view, props);
     }
 }
 
