@@ -1,5 +1,3 @@
-'use strict';
-
 const routes = [
     [["home"], Home],
     [["about"], About],
@@ -20,6 +18,8 @@ class App extends Router {
         this.state = {
             path: this.readPath()
         };
+        this.routes = routes;
+        this.root = ["home"];
     }
     componentDidMount(_) {
         window.onhashchange = () => {
@@ -31,8 +31,4 @@ class App extends Router {
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(React.createElement(App, {
-    root: ["home"],
-    routes: routes,
-
-}), domContainer);
+ReactDOM.render(React.createElement(App), domContainer);
