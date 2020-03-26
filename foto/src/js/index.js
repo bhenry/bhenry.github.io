@@ -1,12 +1,10 @@
 'use strict';
 
-const e = React.createElement;
-
 const matchers = [
-    [[], Home],
     [["home"], Home],
     [["about"], About],
-    [["about", "?id"], About]
+    [["about", "?id"], About],
+    [["games", "..."], Games]
 ];
 
 class App extends React.Component {
@@ -15,17 +13,17 @@ class App extends React.Component {
         var parts = path && path.split("/");
         parts && !parts[parts.length - 1] && parts.pop();
         parts && !parts[0] && parts.shift();
-        return parts || [];
+        return parts || ["home"];
     }
     match(matcher) {
         var path = this.state.path;
         var params = { url: location.href };
-        if (path.length !== matcher.length) {
-            return false;
-        }
         for (let i = 0; i < matcher.length; i++) {
-            if (matcher[i].startsWith("?")){
+            if (matcher[i].startsWith("?")) {
                 params[matcher[i].substring(1)] = path[i];
+            } else if (matcher[i] === "...") {
+                params["path"] = path.slice(i);
+                return params;
             } else if (matcher[i] !== path[i]) {
                 return false;
             }
@@ -57,10 +55,10 @@ class App extends React.Component {
     }
     render() {
         var [view, props] = this.resolve();
-        return e(view, props);
+        return React.createElement(view, props);
     }
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(e(App), domContainer);
+ReactDOM.render(React.createElement(App), domContainer);
 
