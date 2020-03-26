@@ -13,7 +13,7 @@ class App extends React.Component {
         var parts = path && path.split("/");
         parts && !parts[parts.length - 1] && parts.pop();
         parts && !parts[0] && parts.shift();
-        return parts || ["home"];
+        return parts || this.props.root;
     }
     match(matcher) {
         var path = this.state.path;
@@ -46,7 +46,7 @@ class App extends React.Component {
             path: this.readPath()
         };
     }
-    componentDidMount(props) {
+    componentDidMount(_) {
         window.onhashchange = () => {
             this.setState({
                 path: this.readPath()
@@ -60,5 +60,4 @@ class App extends React.Component {
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(React.createElement(App), domContainer);
-
+ReactDOM.render(React.createElement(App, {root: ["home"]}), domContainer);
