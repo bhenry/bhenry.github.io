@@ -1,44 +1,19 @@
 'use strict';
 
-const matchers = [
+const routes = [
     [["home"], Home],
     [["about"], About],
     [["about", "?id"], About],
     [["games", "..."], Games]
 ];
 
-class App extends React.Component {
+class App extends Router {
     readPath() {
         var path = location.href && location.href.split("#")[1];
         var parts = path && path.split("/");
         parts && !parts[parts.length - 1] && parts.pop();
         parts && !parts[0] && parts.shift();
         return parts || this.props.root;
-    }
-    match(matcher) {
-        var path = this.state.path;
-        var params = { url: location.href };
-        for (let i = 0; i < matcher.length; i++) {
-            if (matcher[i].startsWith("?")) {
-                params[matcher[i].substring(1)] = path[i];
-            } else if (matcher[i] === "...") {
-                params["path"] = path.slice(i);
-                return params;
-            } else if (matcher[i] !== path[i]) {
-                return false;
-            }
-        }
-        return params;
-    }
-    resolve() {
-        for (let i = 0; i < matchers.length; i++) {
-            let [matcher, view] = matchers[i];
-            let params = this.match(matcher);
-            if (params) {
-                return [view, params];
-            }
-        }
-        return [NotFound, {url: location.href}];
     }
     constructor(props) {
         super(props);
@@ -53,11 +28,11 @@ class App extends React.Component {
             });
        };
     }
-    render() {
-        var [view, props] = this.resolve();
-        return React.createElement(view, props);
-    }
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(React.createElement(App, {root: ["home"]}), domContainer);
+ReactDOM.render(React.createElement(App, {
+    root: ["home"],
+    routes: routes,
+
+}), domContainer);
