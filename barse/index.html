@@ -54,6 +54,15 @@
 							</div>
                             <div id="output">
                             </div>
+							<div id="control" class="hidden">
+								<a onclick="javascript:saveImage(event);" href="#">Save as Image</a>
+							</div>
+							<div id="imageModal" class="hidden">
+								<a class="close" onclick="javascript:hideModal(event);" href="#">Close</a>
+								<div style="clear:both;">&nbsp;</div>
+								Right click to save
+								<div id="imageHolder"></div>
+							</div>
 						</div>
 					</section>
 <!--
@@ -206,6 +215,7 @@
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/html2canvas.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>

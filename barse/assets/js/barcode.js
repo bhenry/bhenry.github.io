@@ -79,6 +79,9 @@ function convert(e){
     e.preventDefault();
     let input = document.getElementById("entered_name");
     let output = document.getElementById("output");
+    let control = document.getElementById("control");
+    let imageModal = document.getElementById("imageModal");
+    imageModal.className = "hidden";
     let barse = wordToBarse(input.value);
     let bars = [];
     barse.forEach(symbols => {
@@ -96,12 +99,34 @@ function convert(e){
     });
     output.innerHTML = "";
     if (bars.length) {
-        result = document.createElement("div");
+        let result = document.createElement("div");
         result.className = "result";
         result.innerHTML = "";
         bars.forEach(bar => {
             result.appendChild(bar);
         });
         output.appendChild(result);
+        control.className = "";
+    } else {
+        control.className = "hidden";
     }
+}
+
+function saveImage(e){
+    e.preventDefault();
+    let imageModal = document.getElementById("imageModal");
+    let imageHolder = document.getElementById("imageHolder");
+    imageHolder.innerHTML = "";
+    let output = document.getElementById("output");
+    let result = output.querySelector(".result");
+    html2canvas(result).then(canvas => {
+        imageHolder.appendChild(canvas);
+    });
+    imageModal.className = "";
+}
+
+function hideModal(e){
+    e.preventDefault();
+    let imageModal = document.getElementById("imageModal");
+    imageModal.className = "hidden";
 }
