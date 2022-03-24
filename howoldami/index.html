@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>how old am i?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body>
+      <h2>how old am i?</h2>
+        <div id="inputs">
+            <form>
+                <input type="text" id="dob" placeholder="dob" value="1984-03-06 08:00:00">
+                <button type="submit" id="submit">calculate</button>
+            </form>
+        </div>
+        <div id="results">
+            <p>your age is:</p>
+            <div class="age"></div><span id="age_in_years"></span> years old</div>
+            <div class="age"></div><span id="age_in_months"></span> months old</div>
+            <div class="age"></div><span id="age_in_weeks"></span> weeks old</div>
+            <div class="age"></div><span id="age_in_days"></span> days old</div>
+            <div class="age"></div><span id="age_in_hours"></span> hours old</div>
+            <div class="age"></div><span id="age_in_minutes"></span> minutes old</div>
+            <div class="age"></div><span id="age_in_seconds"></span> seconds old</div>
+        </div>
+    <script>
+        function calculate(e) {
+            e.preventDefault();
+            var dob = document.getElementById('dob').value;
+            var dob_datetime = Date.parse(dob);
+            var age_in_years = Math.floor((new Date() - dob_datetime) / (1000 * 60 * 60 * 24 * 365));
+            document.getElementById('age_in_years').innerHTML = age_in_years;
+            var age_in_months = Math.floor((new Date() - dob_datetime) / (1000 * 60 * 60 * 24 * 31));
+            document.getElementById('age_in_months').innerHTML = age_in_months;
+            var age_in_weeks = Math.floor((new Date() - dob_datetime) / (1000 * 60 * 60 * 24 * 7));
+            document.getElementById('age_in_weeks').innerHTML = age_in_weeks;
+            var age_in_days = Math.floor((new Date() - dob_datetime) / (1000 * 60 * 60 * 24));
+            document.getElementById('age_in_days').innerHTML = age_in_days;
+            var age_in_hours = Math.floor((new Date() - dob_datetime) / (1000 * 60 * 60));
+            document.getElementById('age_in_hours').innerHTML = age_in_hours;
+            var age_in_minutes = Math.floor((new Date() - dob_datetime) / (1000 * 60));
+            document.getElementById('age_in_minutes').innerHTML = age_in_minutes;
+            var age_in_seconds = Math.floor((new Date() - dob_datetime) / 1000);
+            document.getElementById('age_in_seconds').innerHTML = age_in_seconds;
+            return false;
+        }
+        document.querySelector('#inputs form').addEventListener('submit', calculate);
+    </script>
+  </body>
+</html>
