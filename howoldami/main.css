@@ -32,3 +32,17 @@ display: none;
     font-size: 1.2em;
     font-weight: 300;
 }
+#age_in_milliseconds {
+    font-size: 0.9em;
+}
+
+/* mobile overrides */
+@media only screen and (max-width: 600px) {
+    body {
+        padding: 24px 16px 24px 16px;
+    }
+    .age {
+        font-size: 1.1em;
+        font-weight: 200;
+    }
+}
