@@ -136,20 +136,23 @@
             } else {
                 document.getElementById("tobdisplay").innerHTML = "";
             }
-
-            var age_in_years = Math.floor((new Date() - dob) / (1000 * 60 * 60 * 24 * 365));
+            var rightnow = new Date();
+            var age_in_years = Math.floor((rightnow - dob) / (1000 * 60 * 60 * 24 * 365.25));
             document.getElementById("age_in_years").innerHTML = display(age_in_years);
-            var age_in_months = Math.floor((new Date() - dob) / (1000 * 60 * 60 * 24 * 30.5));
+            var age_in_months = age_in_years * 12 + rightnow.getMonth() - dob.getMonth();
+            if (rightnow.getDate() < dob.getDate()) {
+                age_in_months--;
+            }
             document.getElementById("age_in_months").innerHTML = display(age_in_months);
-            var age_in_weeks = Math.floor((new Date() - dob) / (1000 * 60 * 60 * 24 * 7));
+            var age_in_weeks = Math.floor((rightnow - dob) / (1000 * 60 * 60 * 24 * 7));
             document.getElementById("age_in_weeks").innerHTML = display(age_in_weeks);
-            var age_in_days = Math.floor((new Date() - dob) / (1000 * 60 * 60 * 24));
+            var age_in_days = Math.floor((rightnow - dob) / (1000 * 60 * 60 * 24));
             document.getElementById("age_in_days").innerHTML = display(age_in_days);
-            var age_in_hours = Math.floor((new Date() - dob) / (1000 * 60 * 60));
+            var age_in_hours = Math.floor((rightnow - dob) / (1000 * 60 * 60));
             document.getElementById("age_in_hours").innerHTML = display(age_in_hours);
-            var age_in_minutes = Math.floor((new Date() - dob) / (1000 * 60));
+            var age_in_minutes = Math.floor((rightnow - dob) / (1000 * 60));
             document.getElementById("age_in_minutes").innerHTML = display(age_in_minutes);
-            var age_in_seconds = Math.floor((new Date() - dob) / 1000);
+            var age_in_seconds = Math.floor((rightnow - dob) / 1000);
             document.getElementById("age_in_seconds").innerHTML = display(age_in_seconds);
             partytime();
             document.getElementById("results").style.display = "block";
