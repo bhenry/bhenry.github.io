@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div id="errors" style="display:none;">
-                <div>please enter a valid date of birth</div>
+                <div>please enter a valid date</div>
             </div>
         </div>
     <script>
@@ -191,7 +191,7 @@
         let wwibu = params.get('wwibu');
         if (urlDob) {
             document.getElementById("dob").value = urlDob;
-            calculate();
+            showhidestuff();
             if (wwib) {
                 document.getElementById("wwib").value = wwib;
                 document.getElementById("wwib_unit").value = wwibu;
@@ -201,7 +201,7 @@
         document.getElementById("dob").focus();
         let intervalID;
         function repeatEverySecond() {
-            intervalID = setInterval(calculate, 4444);
+            intervalID = setInterval(showhidestuff, 3333);
         }
         repeatEverySecond();
     </script>
