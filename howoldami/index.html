@@ -199,6 +199,11 @@
             }
         }
         document.getElementById("dob").focus();
+        let intervalID;
+        function repeatEverySecond() {
+            intervalID = setInterval(calculate, 4444);
+        }
+        repeatEverySecond();
     </script>
   </body>
 </html>
