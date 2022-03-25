@@ -15,13 +15,31 @@
         </div>
         <div style="display:none;" id="results">
             <div>if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span> then your age is:</div>
-            <div class="age"><span id="age_in_years"></span> years</div>
-            <div class="age"><span id="age_in_months"></span> months</div>
-            <div class="age"><span id="age_in_weeks"></span> weeks</div>
-            <div class="age"><span id="age_in_days"></span> days</div>
-            <div class="age"><span id="age_in_hours"></span> hours</div>
-            <div class="age"><span id="age_in_minutes"></span> minutes</div>
-            <div class="age"><span id="age_in_seconds"></span> seconds</div>
+            <div class="age"><span id="age_in_years"></span> years old</div>
+            <div class="age"><span id="age_in_months"></span> months old</div>
+            <div class="age"><span id="age_in_weeks"></span> weeks old</div>
+            <div class="age"><span id="age_in_days"></span> days old</div>
+            <div class="age"><span id="age_in_hours"></span> hours old</div>
+            <div class="age"><span id="age_in_minutes"></span> minutes old</div>
+            <div class="age"><span id="age_in_seconds"></span> seconds old</div>
+
+            <div id="partytime">
+                <form>
+                    <label for="wwib">when will i be</label>
+                    <input type="text" id="wwib" placeholder="###" />
+                    <select id="wwib_unit">
+                        <option value="months">months</option>
+                        <option value="weeks">weeks</option>
+                        <option value="days">days</option>
+                        <option value="hours">hours</option>
+                        <option value="minutes">minutes</option>
+                        <option value="seconds">seconds</option>
+                    </select> old?
+                </form>
+                <div style="display: none;" id="wwib_result">
+
+                </div>
+            </div>
         </div>
         <div id="errors" style="display:none;">
             <div>please enter a valid date of birth</div>
@@ -29,6 +47,17 @@
     <script>
         function readDob(){
             return new Date(Date.parse(document.getElementById("dob").value));
+        }
+
+        function readFromUrl(){
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('dob');
+        }
+
+        function writeToUrl(){
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('dob', document.getElementById("dob").value);
+            window.history.replaceState({}, '', '?' + urlParams.toString());
         }
 
         function calculate(e) {
@@ -59,6 +88,7 @@
             var age_in_seconds = Math.floor((new Date() - dob) / 1000);
             document.getElementById("age_in_seconds").innerHTML = age_in_seconds;
 
+            writeToUrl();
             document.getElementById("results").style.display = "block";
         }
 
@@ -76,10 +106,54 @@
             }
         }
 
+        function partytime(e) {
+            e && e.preventDefault();
+            var wwib = parseInt(document.getElementById("wwib").value);
+            var output = document.getElementById("wwib_result");
+            if (wwib > 0) {
+                var wwib_unit = document.getElementById("wwib_unit").value;
+                var dob = readDob();
+                switch (wwib_unit) {
+                    case "months":
+                        dob.setMonth(dob.getMonth() + wwib);
+                        break;
+                    case "weeks":
+                        dob.setDate(dob.getDate() + wwib * 7);
+                        break;
+                    case "days":
+                        dob.setDate(dob.getDate() + wwib);
+                        break;
+                    case "hours":
+                        dob.setHours(dob.getHours() + wwib);
+                        break;
+                    case "minutes":
+                        dob.setMinutes(dob.getMinutes() + wwib);
+                        break;
+                    case "seconds":
+                        dob.setSeconds(dob.getSeconds() + wwib);
+                        break;
+                }
+                var d = dob.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
+                var t = dob.toLocaleTimeString("en-US");
+                output.innerHTML = "You will turn " + wwib + " " + wwib_unit + " old on " + d + " at " + t;
+                output.style.display = "block";
+            } else {
+                output.style.display = "none";
+                output.innerHTML = "";
+            }
+        }
+
         // listeners
         document.getElementById("dob").addEventListener("keyup", hidestuff);
+        document.getElementById("wwib").addEventListener("keyup", partytime);
+        document.getElementById("wwib_unit").addEventListener("change", partytime);
 
         //ready
+        let urlDob = readFromUrl();
+        if (urlDob) {
+            document.getElementById("dob").value = urlDob;
+            calculate();
+        }
         document.getElementById("dob").focus();
     </script>
   </body>
