@@ -17,7 +17,7 @@
                 </form>
             </div>
             <div style="display:none;" id="results">
-                <div class="focus">if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span>, then your age is:</div>
+                <div class="focus">if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span> then your age is:</div>
                 <div class="age"><span id="age_in_years"></span> years old</div>
                 <div class="age"><span id="age_in_months"></span> months old</div>
                 <div class="age"><span id="age_in_weeks"></span> weeks old</div>
@@ -134,11 +134,12 @@
             var dob = readDob();
             var d = dob.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
             var t = dob.toLocaleTimeString("en-US");
-            document.getElementById("dobdisplay").innerHTML = d;
 
             if (t != "12:00:00 AM") {
-                document.getElementById("tobdisplay").innerHTML = " at " + t;
+                document.getElementById("dobdisplay").innerHTML = d;
+                document.getElementById("tobdisplay").innerHTML = " at " + t + ", ";
             } else {
+                document.getElementById("dobdisplay").innerHTML = d + ", ";
                 document.getElementById("tobdisplay").innerHTML = "";
             }
             var rightnow = new Date();
