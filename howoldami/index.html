@@ -12,12 +12,12 @@
         <h2>how old am i?</h2>
             <div id="inputs">
                 <form>
-                    <label for="dob">date of birth</label>
-                    <input type="text" id="dob" placeholder="yyyy-mm-dd hh:MM" />
+                    <label for="dob">date of birth
+                    <input type="text" id="dob" placeholder="yyyy-mm-dd hh:MM" /></label>
                 </form>
             </div>
             <div style="display:none;" id="results">
-                <div>if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span>, then your age is:</div>
+                <div class="focus">if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span>, then your age is:</div>
                 <div class="age"><span id="age_in_years"></span> years old</div>
                 <div class="age"><span id="age_in_months"></span> months old</div>
                 <div class="age"><span id="age_in_weeks"></span> weeks old</div>
@@ -28,8 +28,8 @@
 
                 <div id="partytime">
                     <form>
-                        <label for="wwib">when will i be</label>
-                        <input type="text" id="wwib" placeholder="###" />
+                        <label class="tt" for="wwib">when will i be
+                        <input type="text" id="wwib" placeholder="###" /></label>
                         <select id="wwib_unit">
                             <option value="months">months</option>
                             <option value="weeks">weeks</option>
@@ -39,7 +39,7 @@
                             <option value="seconds">seconds</option>
                         </select> old?
                     </form>
-                    <div style="display: none;" id="wwib_result">
+                    <div style="display: none;" id="wwib_result" class="focus">
 
                     </div>
                 </div>
@@ -53,19 +53,75 @@
             return new Date(Date.parse(document.getElementById("dob").value + " "));
         }
 
-        function readFromUrl(){
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('dob');
+        function urlParams(){
+            return new URLSearchParams(window.location.search);
         }
 
         function writeToUrl(){
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('dob', document.getElementById("dob").value);
+            urlParams.set('wwib', document.getElementById("wwib").value);
+            urlParams.set('wwibu', document.getElementById("wwib_unit").value);
             window.history.replaceState({}, '', '?' + urlParams.toString());
         }
 
         function display(n) {
             return n.toLocaleString("en-US");
+        }
+
+        function calculatePartyTime(wwib, wwib_unit) {
+            var dob = readDob();
+            switch (wwib_unit) {
+                case "months":
+                    dob.setMonth(dob.getMonth() + wwib);
+                    break;
+                case "weeks":
+                    dob.setDate(dob.getDate() + wwib * 7);
+                    break;
+                case "days":
+                    dob.setDate(dob.getDate() + wwib);
+                    break;
+                case "hours":
+                    dob.setHours(dob.getHours() + wwib);
+                    break;
+                case "minutes":
+                    dob.setMinutes(dob.getMinutes() + wwib);
+                    break;
+                case "seconds":
+                    dob.setSeconds(dob.getSeconds() + wwib);
+                    break;
+            }
+            return dob;
+        }
+
+        function partytime(e) {
+            e && e.preventDefault();
+            var wwib = parseInt(document.getElementById("wwib").value);
+            var output = document.getElementById("wwib_result");
+            if (isNaN(wwib)) {
+                output.innerHTML = "enter a number to determine when to celebrate";
+            }
+            if (wwib == 0) {
+                output.innerHTML = "that was your birthday!";
+            }
+            if (wwib < 0) {
+                output.innerHTML = "how are you going to be a negative age?";
+            }
+            if (wwib > 0) {
+                wwib_unit = document.getElementById("wwib_unit").value;
+                var dop = calculatePartyTime(wwib, wwib_unit);
+                if (dop instanceof Date && !isNaN(dop)){
+                    var d = dop.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
+                    var t = dop.toLocaleTimeString("en-US");
+                    var turn = new Date() < dop ? "you  will turn " : "you turned ";
+                    output.innerHTML = turn + display(wwib) + " " + wwib_unit + " old on " + d + " at " + t;
+                } else {
+                    output.innerHTML = "you won't make it that far";
+                }
+            }
+
+            output.style.display = "block";
+            writeToUrl();
         }
 
         function calculate(e) {
@@ -95,8 +151,7 @@
             document.getElementById("age_in_minutes").innerHTML = display(age_in_minutes);
             var age_in_seconds = Math.floor((new Date() - dob) / 1000);
             document.getElementById("age_in_seconds").innerHTML = display(age_in_seconds);
-
-            writeToUrl();
+            partytime();
             document.getElementById("results").style.display = "block";
         }
 
@@ -114,44 +169,6 @@
             }
         }
 
-        function partytime(e) {
-            e && e.preventDefault();
-            var wwib = parseInt(document.getElementById("wwib").value);
-            var output = document.getElementById("wwib_result");
-            if (wwib > 0) {
-                var wwib_unit = document.getElementById("wwib_unit").value;
-                var dob = readDob();
-                switch (wwib_unit) {
-                    case "months":
-                        dob.setMonth(dob.getMonth() + wwib);
-                        break;
-                    case "weeks":
-                        dob.setDate(dob.getDate() + wwib * 7);
-                        break;
-                    case "days":
-                        dob.setDate(dob.getDate() + wwib);
-                        break;
-                    case "hours":
-                        dob.setHours(dob.getHours() + wwib);
-                        break;
-                    case "minutes":
-                        dob.setMinutes(dob.getMinutes() + wwib);
-                        break;
-                    case "seconds":
-                        dob.setSeconds(dob.getSeconds() + wwib);
-                        break;
-                }
-                var d = dob.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
-                var t = dob.toLocaleTimeString("en-US");
-                var turn = new Date() < dob ? "You  will turn " : "You turned ";
-                output.innerHTML = turn + wwib + " " + wwib_unit + " old on " + d + " at " + t;
-                output.style.display = "block";
-            } else {
-                output.style.display = "none";
-                output.innerHTML = "";
-            }
-        }
-
         // listeners
         document.querySelector("#inputs form").addEventListener("submit", e => e.preventDefault());
         document.getElementById("dob").addEventListener("keyup", showhidestuff);
@@ -159,10 +176,18 @@
         document.getElementById("wwib_unit").addEventListener("change", partytime);
 
         //ready
-        let urlDob = readFromUrl();
+        let params = urlParams();
+        let urlDob = params.get('dob');
+        let wwib = params.get('wwib');
+        let wwibu = params.get('wwibu');
         if (urlDob) {
             document.getElementById("dob").value = urlDob;
             calculate();
+            if (wwib) {
+                document.getElementById("wwib").value = wwib;
+                document.getElementById("wwib_unit").value = wwibu;
+                partytime();
+            }
         }
         document.getElementById("dob").focus();
     </script>
