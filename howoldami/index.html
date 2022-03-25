@@ -46,7 +46,7 @@
         </div>
     <script>
         function readDob(){
-            return new Date(Date.parse(document.getElementById("dob").value));
+            return new Date(Date.parse(document.getElementById("dob").value + " "));
         }
 
         function readFromUrl(){
@@ -92,7 +92,7 @@
             document.getElementById("results").style.display = "block";
         }
 
-        function hidestuff(e) {
+        function showhidestuff(e) {
             var results = document.getElementById("results");
             var errors = document.getElementById("errors");
             var dob = readDob();
@@ -135,7 +135,8 @@
                 }
                 var d = dob.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
                 var t = dob.toLocaleTimeString("en-US");
-                output.innerHTML = "You will turn " + wwib + " " + wwib_unit + " old on " + d + " at " + t;
+                var turn = new Date() < dob ? "You  will turn " : "You turned ";
+                output.innerHTML = turn + wwib + " " + wwib_unit + " old on " + d + " at " + t;
                 output.style.display = "block";
             } else {
                 output.style.display = "none";
@@ -144,7 +145,8 @@
         }
 
         // listeners
-        document.getElementById("dob").addEventListener("keyup", hidestuff);
+        document.querySelector("#inputs form").addEventListener("submit", e => e.preventDefault());
+        document.getElementById("dob").addEventListener("keyup", showhidestuff);
         document.getElementById("wwib").addEventListener("keyup", partytime);
         document.getElementById("wwib_unit").addEventListener("change", partytime);
 
