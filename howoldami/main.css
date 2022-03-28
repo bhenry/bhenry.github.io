@@ -46,3 +46,15 @@ display: none;
         font-weight: 200;
     }
 }
+@media only screen and (max-width: 400px) {
+    body {
+        padding: 12px 8px 12px 8px;
+    }
+    .age {
+        font-size: 0.9em;
+        font-weight: 200;
+    }
+    #dobdisplay, #tobdisplay {
+        display: block;
+    }
+}

@@ -11,12 +11,12 @@
       <div class="container">
         <h1>how old am i?</h1>
             <div id="inputs">
-                <form>
+                <form onsubmit="return false;">
                     <label for="dob">date of birth
                     <input type="text" id="dob" placeholder="yyyy-mm-dd hh:MM" /></label>
                 </form>
             </div>
-            <div style="display:none;" id="results">
+            <div style="display:hidden;" id="results">
                 <div class="focus">if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span> then your age is:</div>
                 <div class="age"><span id="age_in_years"></span> years old</div>
                 <div class="age"><span id="age_in_months"></span> months old</div>
@@ -28,7 +28,7 @@
                 <div class="age"><span id="age_in_milliseconds"></span> milliseconds old</div>
 
                 <div id="partytime">
-                    <form>
+                    <form onsubmit="return false;">
                         <label class="tt" for="wwib">when will i be
                         <input type="text" id="wwib" placeholder="###" /></label>
                         <select id="wwib_unit">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div id="errors" style="display:none;">
-                <div>please enter a valid date</div>
+                <div>enter a valid date to see your age in months, weeks, days, hours, etc</div>
             </div>
         </div>
     <script>
@@ -143,14 +143,23 @@
                 document.getElementById("tobdisplay").innerHTML = "";
             }
             var rightnow = new Date();
+            var diff_in_years = rightnow.getFullYear() - dob.getFullYear();
+            var age_in_years = diff_in_years;
+            var diff_in_months = rightnow.getMonth() - dob.getMonth();
+            if (diff_in_months < 0) {
+                age_in_years--;
+            }
+            var age_in_months = diff_in_years * 12 + diff_in_months;
+            var diff_in_days = rightnow.getDate() - dob.getDate();
+            if (diff_in_days < 0) {
+                age_in_months--;
+            }
             var age_in_milliseconds = Math.floor(rightnow.getTime() - dob.getTime());
             var age_in_seconds = Math.floor(age_in_milliseconds / 1000);
             var age_in_minutes = Math.floor(age_in_seconds / 60);
             var age_in_hours = Math.floor(age_in_minutes / 60);
             var age_in_days = Math.floor(age_in_hours / 24);
             var age_in_weeks = Math.floor(age_in_days / 7);
-            var age_in_months = Math.floor(age_in_days / 30.5);
-            var age_in_years = Math.floor(age_in_days / 365.25);
 
             document.getElementById("age_in_years").innerHTML = display(age_in_years);
             document.getElementById("age_in_months").innerHTML = display(age_in_months);
@@ -179,7 +188,6 @@
         }
 
         // listeners
-        document.querySelector("#inputs form").addEventListener("submit", e => e.preventDefault());
         document.getElementById("dob").addEventListener("keyup", showhidestuff);
         document.getElementById("wwib").addEventListener("keyup", partytime);
         document.getElementById("wwib_unit").addEventListener("change", partytime);
