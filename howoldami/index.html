@@ -144,22 +144,41 @@
             }
             var rightnow = new Date();
             var diff_in_years = rightnow.getFullYear() - dob.getFullYear();
-            var age_in_years = diff_in_years;
             var diff_in_months = rightnow.getMonth() - dob.getMonth();
-            if (diff_in_months < 0) {
-                age_in_years--;
-            }
-            var age_in_months = diff_in_years * 12 + diff_in_months;
             var diff_in_days = rightnow.getDate() - dob.getDate();
-            if (diff_in_days < 0) {
-                age_in_months--;
-            }
+            var diff_in_hours = rightnow.getHours() - dob.getHours();
+            var diff_in_minutes = rightnow.getMinutes() - dob.getMinutes();
+            var diff_in_seconds = rightnow.getSeconds() - dob.getSeconds();
+            var diff_in_milliseconds = rightnow.getMilliseconds() - dob.getMilliseconds();
+
+            var age_in_years = diff_in_years;
+            var age_in_months = age_in_years * 12 + diff_in_months;
             var age_in_milliseconds = Math.floor(rightnow.getTime() - dob.getTime());
             var age_in_seconds = Math.floor(age_in_milliseconds / 1000);
             var age_in_minutes = Math.floor(age_in_seconds / 60);
             var age_in_hours = Math.floor(age_in_minutes / 60);
             var age_in_days = Math.floor(age_in_hours / 24);
             var age_in_weeks = Math.floor(age_in_days / 7);
+
+            if (diff_in_milliseconds < 0) {
+                diff_in_seconds--;
+            }
+            if (diff_in_seconds < 0) {
+                diff_in_minutes--;
+            }
+            if (diff_in_minutes < 0) {
+                diff_in_hours--;
+            }
+            if (diff_in_hours < 0) {
+                diff_in_days--;
+            }
+            if (diff_in_days < 0) {
+                diff_in_months--;
+                age_in_months--;
+            }
+            if (diff_in_months < 0) {
+                age_in_years--;
+            }
 
             document.getElementById("age_in_years").innerHTML = display(age_in_years);
             document.getElementById("age_in_months").innerHTML = display(age_in_months);
