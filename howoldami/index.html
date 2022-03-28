@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>how old am i?</title>
+    <title>how old are you?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
   </head>
 
   <body>
-      <div class="container">
-        <h1>how old am i?</h1>
+    <div class="container">
+        <div class="header">
+            <h1>How old are you?</h1>
+        </div>
+        <div class="content">
             <div id="inputs">
                 <form onsubmit="return false;">
-                    <label for="dob">date of birth
-                    <input type="text" id="dob" placeholder="yyyy-mm-dd hh:MM" /></label>
+                    <label for="dob">date of birth</label>
+                    <input type="text" id="dob" placeholder="yyyy-mm-dd hh:MM" />
                 </form>
             </div>
             <div style="display:hidden;" id="results">
@@ -29,8 +32,8 @@
 
                 <div id="partytime">
                     <form onsubmit="return false;">
-                        <label class="tt" for="wwib">when will i be
-                        <input type="text" id="wwib" placeholder="###" /></label>
+                        <label class="tt" for="wwib">when will i be</label>
+                        <input type="text" id="wwib" placeholder="###" />
                         <select id="wwib_unit">
                             <option value="months">months</option>
                             <option value="weeks">weeks</option>
@@ -50,6 +53,14 @@
                 <div>enter a valid date to see your age in months, weeks, days, hours, etc</div>
             </div>
         </div>
+        <div id="footer">
+            <p>
+                <a href="mailto:brandonmhenry+bug@gmail.com?subject=bug at brandonhenry.net">
+                    report bugs to brandonmhenry@gmail.com
+                </a>
+            </p>
+        </div>
+    </div>
     <script>
         function readDob(){
             return new Date(Date.parse(document.getElementById("dob").value + " "));
