@@ -30,17 +30,14 @@ div.content {
     color: #BFCDE0;
     background-color: #5D5D81;
 }
-
 #footer a {
     text-decoration: none;
     color: #BFCDE0;
 }
-
 #footer a:hover {
     text-decoration: none;
     color: #FEFCFD;
 }
-
 form {
     padding: 0;
 }
@@ -82,7 +79,6 @@ display: none;
 #age_in_milliseconds {
     font-size: 0.9em;
 }
-
 /* mobile overrides */
 @media only screen and (max-width: 1000px) {
     label[for="wwib"] {
