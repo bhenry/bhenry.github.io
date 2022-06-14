@@ -1,6 +1,6 @@
 var Game = {};
 Game.content = $("div#content");
-Game.timeToAnswer = 30 * 1000;
+Game.timeToAnswer = 60 * 1000;
 
 Game.board = function(){
   return Game.content.find("div.board");
