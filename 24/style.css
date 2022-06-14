@@ -1,0 +1,103 @@
+body {
+  font-family: tahoma;
+}
+
+#footer, #header {
+  text-align: center;
+}
+
+div#content {
+  width: 1200px;
+  border: solid 1px #000;
+  padding: 12px;
+  margin: 24px auto;
+}
+
+div.user-form {
+  border: solid 1px #000;
+  padding: 8px;
+  margin: 12px;
+  width: 150px;
+  font-size: 0.8em;
+  float: left;
+}
+
+select.buzzer {
+  margin-right: 12px;
+}
+
+div.players div.player {
+  border: solid 1px #000;
+  padding: 8px;
+  margin: 12px;
+  width: 150px;
+  font-size: 0.8em;
+  float: left;
+}
+
+div.player h2 {
+  overflow: hidden;
+}
+
+div.players {
+  clear: both;
+}
+
+div.board {
+  width: auto;
+  padding: 12px;
+  border: solid 1px #000;
+  height: 320px;
+  clear: both;
+  margin: 12px;
+  text-align: center;
+}
+
+div.board div.equation-parts, div.board div.equation {
+  margin: 24px auto;
+  display: inline-block;
+  clear: both;
+}
+
+div.equation-parts h1 {
+  cursor: pointer;
+}
+
+div.board h1.equation-part {
+  float: left;
+  margin: 24px;
+  font-size: 10em;
+  padding: 4px 24px;
+  background-color: #aaa;
+  border: 3px solid black;
+}
+
+div.shrunken {
+  font-size: 0.2em;
+}
+
+div.shrunken h1.equation-part {
+  margin: 12px;
+}
+
+div.equation h1.equation-part {
+  border: none;
+  margin: 0px;
+  padding: 12px 24px;
+}
+
+div.helper {
+  font-size: 2em;
+}
+
+span.disabled h1 {
+  opacity: 0.25;
+}
+
+h1.disabled {
+  opacity: 0.25;
+}
+
+span h1.unavailable {
+  opacity: 0.03;
+}
