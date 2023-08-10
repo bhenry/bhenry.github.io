@@ -74,12 +74,12 @@ req.onload = function(){
     nav.appendChild(page_link('>>', pages));
     navbot.appendChild(page_link('>>', pages));
     var page = window.location.hash.substring(1);
-    load_slides(page);
+    load_slides(page || 1);
 };
 req.open('GET', './index.list');
 req.send();
 
 window.onhashchange = function(){
     var page = window.location.hash.substring(1);
-    load_slides(page);
+    load_slides(page || 1);
 };
