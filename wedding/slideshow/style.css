@@ -7,14 +7,14 @@ div.slide {
     display: block;
     width: 45%;
     margin: 4px;
-    padding: 3px 3px 0 3px;
+    padding: 4px 2px 0 2px;
     border: 1px dashed #000;
     text-align: center;
     list-style: none;
     float: left;
 }
 img {
-    width: 96%;
+    width: 100%;
 }
 #nav a, #navbot a {
     margin: 4px;
