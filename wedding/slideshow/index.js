@@ -7,8 +7,16 @@ function preload_image(im_url) {
 
 var incby = 10;
 
+function handle_click(im_url) {
+    return function(e){
+        e.preventDefault();
+        window.open("../"+im_url,'Image','width=200,resizable=1');
+    };
+}
+
 function create_slide(im_url) {
     let div = document.createElement('div');
+    div.onclick = handle_click(im_url);
     div.className = 'slide';
     let img = document.createElement('img');
     img.src = "../"+im_url;
