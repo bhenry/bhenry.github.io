@@ -26,23 +26,22 @@ function create_slide(im_url) {
 function page_link(page, pages){
     var a = document.createElement('a');
     a.innerHTML = page;
+    a.style.cursor = 'pointer';
     if (page == '<<') {
         a.onclick = function(e){
             e.preventDefault();
-            var page = window.location.hash.substring(1);
+            var page = window.location.hash.substring(1) || 1;
             var newpage = parseInt(page) - 1;
             window.location.hash = newpage < 1 ? pages : newpage;
         };
-        a.style.cursor = 'pointer';
     }
     else if (page == '>>' ) {
         a.onclick = function(e){
             e.preventDefault();
-            var page = window.location.hash.substring(1);
+            var page = window.location.hash.substring(1) || 1;
             var newpage = parseInt(page) + 1;
             window.location.hash = newpage > pages ? 1 : newpage;
         };
-        a.style.cursor = 'pointer';
     }
     else {
         a.href = '#' + page;
@@ -52,6 +51,7 @@ function page_link(page, pages){
 }
 
 function load_slides(page){
+    page = parseInt(page || 1);
     let slideshow = document.getElementById('slideshow');
     slideshow.innerHTML = '';
     let req = new XMLHttpRequest();
@@ -84,12 +84,12 @@ req.onload = function(){
     nav.appendChild(page_link('>>', pages));
     navbot.appendChild(page_link('>>', pages));
     var page = window.location.hash.substring(1);
-    load_slides(page || 1);
+    load_slides(page);
 };
 req.open('GET', './index.list');
 req.send();
 
 window.onhashchange = function(){
     var page = window.location.hash.substring(1);
-    load_slides(page || 1);
+    load_slides(page);
 };
