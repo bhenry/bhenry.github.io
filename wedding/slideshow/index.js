@@ -60,7 +60,9 @@ function load_slides(page){
     req.onload = function(){
         let list = this.responseText.split('\n');
         for(let i = page*incby - incby; i < page*incby; i++){
-            if(list[i] == '') continue;
+            if(!list[i]){
+                continue;
+            }
             div = create_slide(list[i]);
             slideshow.appendChild(div);
         }
