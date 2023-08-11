@@ -21,6 +21,9 @@ img {
     text-decoration: none;
     color: black;
 }
+#nav a.active, #navbot a.active {
+    font-weight: bold;
+}
 div.clear {
     clear: both;
 }

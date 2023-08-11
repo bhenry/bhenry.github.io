@@ -45,13 +45,25 @@ function page_link(page, pages){
     }
     else {
         a.href = '#' + page;
+        a.className = 'page-' + page;
     }
 
     return a;
 }
 
-function load_slides(page){
-    page = parseInt(page || 1);
+function getPage(){
+    var page = parseInt(window.location.hash.substring(1));
+    return page || 1;
+}
+
+function load_slides(){
+    var page = getPage();
+    var activeNav = document.querySelectorAll('a.active');
+    activeNav.forEach(function(e){e.className = e.className.replace('active', '')})
+    var nav = document.getElementsByClassName('page-' + page);
+    for (var i = 0; i < nav.length; i++) {
+        nav[i].className += ' active';
+    }
     let slideshow = document.getElementById('slideshow');
     slideshow.innerHTML = '';
     let req = new XMLHttpRequest();
@@ -83,13 +95,11 @@ req.onload = function(){
     }
     nav.appendChild(page_link('>>', pages));
     navbot.appendChild(page_link('>>', pages));
-    var page = window.location.hash.substring(1);
-    load_slides(page);
+    load_slides();
 };
 req.open('GET', './index.list');
 req.send();
 
 window.onhashchange = function(){
-    var page = window.location.hash.substring(1);
-    load_slides(page);
+    load_slides();
 };
