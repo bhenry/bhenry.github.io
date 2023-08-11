@@ -1,5 +1,3 @@
-var req = new XMLHttpRequest();
-
 function preload_image(im_url) {
     let img = new Image();
     img.src = im_url;
@@ -10,7 +8,7 @@ var incby = 10;
 function handle_click(im_url) {
     return function(e){
         e.preventDefault();
-        window.open("../"+im_url,'Image','width=200,resizable=1');
+        window.open("../"+im_url,"_blank");
     };
 }
 
@@ -70,6 +68,8 @@ function load_slides(page){
     req.open('GET', './index.list');
     req.send();
 }
+
+var req = new XMLHttpRequest();
 req.onload = function(){
     var list = this.responseText.trim().split('\n');
     var pages = Math.ceil(list.length / incby);
