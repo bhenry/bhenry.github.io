@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>how old are you?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="header">
+            <h1>How old are you?</h1>
+        </div>
+        <div class="content">
+            <div id="inputs">
+                <form onsubmit="return false;">
+                    <label for="dob">date of birth</label>
+                    <input type="text" id="dob" placeholder="mm/dd/yyyy hh:MM" />
+                </form>
+            </div>
+            <div style="display:none;" id="results">
+                <div class="focus">if you were born on <span id="dobdisplay"></span> <span id="tobdisplay"></span> then your age is:</div>
+                <div class="age"><span id="age_in_years"></span> years old</div>
+                <div class="age"><span id="age_in_months"></span> months old</div>
+                <div class="age"><span id="age_in_weeks"></span> weeks old</div>
+                <div class="age"><span id="age_in_days"></span> days old</div>
+                <div class="age"><span id="age_in_hours"></span> hours old</div>
+                <div class="age"><span id="age_in_minutes"></span> minutes old</div>
+                <div class="age"><span id="age_in_seconds"></span> seconds old</div>
+                <div class="age"><span id="age_in_milliseconds"></span> milliseconds old</div>
+
+                <div id="partytime">
+                    <form onsubmit="return false;">
+                        <label class="tt" for="wwib">when will i be</label>
+                        <input type="text" id="wwib" placeholder="###" />
+                        <select id="wwib_unit">
+                            <option value="months">months</option>
+                            <option value="weeks">weeks</option>
+                            <option value="days">days</option>
+                            <option value="hours">hours</option>
+                            <option value="minutes">minutes</option>
+                            <option value="seconds">seconds</option>
+                            <option value="milliseconds">milliseconds</option>
+                        </select> old?
+                    </form>
+                    <div style="display: none;" id="wwib_result" class="focus">
+
+                    </div>
+                </div>
+            </div>
+            <div id="errors" style="display:none;">
+                <div>enter a valid date to see your age in months, weeks, days, hours, etc</div>
+            </div>
+        </div>
+        <div id="footer">
+            <p>
+                <a href="mailto:brandonmhenry+bug@gmail.com?subject=bug at brandonhenry.net">
+                    report bugs to brandonmhenry@gmail.com
+                </a>
+            </p>
+            <p>
+                <script type="text/javascript" src="//counter.websiteout.net/js/17/0/25/"></script>
+            </p>
+        </div>
+    </div>
+    <script>
+        function readDob(){
+            return new Date(Date.parse(document.getElementById("dob").value + " "));
+        }
+
+        function urlParams(){
+            return new URLSearchParams(window.location.search);
+        }
+
+        function writeToUrl(){
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('dob', document.getElementById("dob").value);
+            urlParams.set('wwib', document.getElementById("wwib").value);
+            urlParams.set('wwibu', document.getElementById("wwib_unit").value);
+            window.history.replaceState({}, '', '?' + urlParams.toString());
+        }
+
+        function display(n) {
+            return n.toLocaleString("en-US");
+        }
+
+        function calculatePartyTime(wwib, wwib_unit) {
+            var dob = readDob();
+            switch (wwib_unit) {
+                case "months":
+                    dob.setMonth(dob.getMonth() + wwib);
+                    break;
+                case "weeks":
+                    dob.setDate(dob.getDate() + wwib * 7);
+                    break;
+                case "days":
+                    dob.setDate(dob.getDate() + wwib);
+                    break;
+                case "hours":
+                    dob.setHours(dob.getHours() + wwib);
+                    break;
+                case "minutes":
+                    dob.setMinutes(dob.getMinutes() + wwib);
+                    break;
+                case "seconds":
+                    dob.setSeconds(dob.getSeconds() + wwib);
+                    break;
+                case "milliseconds":
+                    dob.setTime(dob.getTime() + wwib);
+                    break;
+            }
+            return dob;
+        }
+
+        function partytime(e) {
+            e && e.preventDefault();
+            var wwib = parseInt(document.getElementById("wwib").value);
+            var output = document.getElementById("wwib_result");
+            if (isNaN(wwib)) {
+                output.innerHTML = "enter a number to determine when to celebrate";
+            }
+            if (wwib == 0) {
+                output.innerHTML = "that was your birthday!";
+            }
+            if (wwib < 0) {
+                output.innerHTML = "how are you going to be a negative age?";
+            }
+            if (wwib > 0) {
+                wwib_unit = document.getElementById("wwib_unit").value;
+                var dop = calculatePartyTime(wwib, wwib_unit);
+                if (dop instanceof Date && !isNaN(dop)){
+                    var d = dop.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
+                    var t = dop.toLocaleTimeString("en-US");
+                    var turn = new Date() < dop ? "you  will turn " : "you turned ";
+                    output.innerHTML = turn + display(wwib) + " " + wwib_unit + " old on " + d + " at " + t;
+                } else {
+                    output.innerHTML = "you won't make it that far";
+                }
+            }
+
+            output.style.display = "block";
+            writeToUrl();
+        }
+
+        function calculate(e) {
+            e && e.preventDefault();
+            var dob = readDob();
+            var d = dob.toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"});
+            var t = dob.toLocaleTimeString("en-US");
+
+            if (t != "12:00:00 AM") {
+                document.getElementById("dobdisplay").innerHTML = d;
+                document.getElementById("tobdisplay").innerHTML = " at " + t + ", ";
+            } else {
+                document.getElementById("dobdisplay").innerHTML = d + ", ";
+                document.getElementById("tobdisplay").innerHTML = "";
+            }
+            var rightnow = new Date();
+            var diff_in_years = rightnow.getFullYear() - dob.getFullYear();
+            var diff_in_months = rightnow.getMonth() - dob.getMonth();
+            var diff_in_days = rightnow.getDate() - dob.getDate();
+            var diff_in_hours = rightnow.getHours() - dob.getHours();
+            var diff_in_minutes = rightnow.getMinutes() - dob.getMinutes();
+            var diff_in_seconds = rightnow.getSeconds() - dob.getSeconds();
+            var diff_in_milliseconds = rightnow.getMilliseconds() - dob.getMilliseconds();
+
+            var age_in_years = diff_in_years;
+            var age_in_months = age_in_years * 12 + diff_in_months;
+            var age_in_milliseconds = Math.floor(rightnow.getTime() - dob.getTime());
+            var age_in_seconds = Math.floor(age_in_milliseconds / 1000);
+            var age_in_minutes = Math.floor(age_in_seconds / 60);
+            var age_in_hours = Math.floor(age_in_minutes / 60);
+            var age_in_days = Math.floor(age_in_hours / 24);
+            var age_in_weeks = Math.floor(age_in_days / 7);
+
+            if (diff_in_milliseconds < 0) {
+                diff_in_seconds--;
+            }
+            if (diff_in_seconds < 0) {
+                diff_in_minutes--;
+            }
+            if (diff_in_minutes < 0) {
+                diff_in_hours--;
+            }
+            if (diff_in_hours < 0) {
+                diff_in_days--;
+            }
+            if (diff_in_days < 0) {
+                diff_in_months--;
+                age_in_months--;
+            }
+            if (diff_in_months < 0) {
+                age_in_years--;
+            }
+
+            document.getElementById("age_in_years").innerHTML = display(age_in_years);
+            document.getElementById("age_in_months").innerHTML = display(age_in_months);
+            document.getElementById("age_in_weeks").innerHTML = display(age_in_weeks);
+            document.getElementById("age_in_days").innerHTML = display(age_in_days);
+            document.getElementById("age_in_hours").innerHTML = display(age_in_hours);
+            document.getElementById("age_in_minutes").innerHTML = display(age_in_minutes);
+            document.getElementById("age_in_seconds").innerHTML = display(age_in_seconds);
+            document.getElementById("age_in_milliseconds").innerHTML = display(age_in_milliseconds);
+            partytime();
+            document.getElementById("results").style.display = "block";
+        }
+
+        function showhidestuff(e) {
+            var results = document.getElementById("results");
+            var errors = document.getElementById("errors");
+            var dob = readDob();
+            if (new Date() - dob > 0) {
+                calculate();
+                results.style.display = "block";
+                errors.style.display = "none";
+            } else {
+                errors.style.display = "block";
+                results.style.display = "none";
+            }
+        }
+
+        // listeners
+        document.getElementById("dob").addEventListener("keyup", showhidestuff);
+        document.getElementById("wwib").addEventListener("keyup", partytime);
+        document.getElementById("wwib_unit").addEventListener("change", partytime);
+
+        //ready
+        let params = urlParams();
+        let urlDob = params.get('dob');
+        let wwib = params.get('wwib');
+        let wwibu = params.get('wwibu');
+        if (urlDob) {
+            document.getElementById("dob").value = urlDob;
+            showhidestuff();
+            if (wwib) {
+                document.getElementById("wwib").value = wwib;
+            }
+            if (wwibu) {
+                document.getElementById("wwib_unit").value = wwibu;
+            }
+            if (wwib || wwibu) {
+                partytime();
+            }
+        }
+        document.getElementById("dob").focus();
+        showhidestuff();
+        let intervalID;
+        function repeatEverySecond() {
+            intervalID = setInterval(showhidestuff, 3333);
+        }
+        repeatEverySecond();
+    </script>
+  </body>
+</html>
