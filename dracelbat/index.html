@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>brandonhenry.net</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- sharing -->
+    <meta property="og:title" content="brandonhenry">
+    <meta property="og:site_name" content="Brandon Henry">
+    <meta property="og:image" content="https://brandonhenry.net/assets/img/preview.png">
+    <meta property="og:url" content="https://brandonhenry.net/">
+    <meta property="og:description" content="Brandon Henry">
+    <meta name="twitter:image:alt" content="Brandon Henry">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <meta property="fb:app_id" content="your_app_id" /> -->
+    <!-- <meta name="twitter:site" content="@website-username"> -->
+
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<link href="assets/css/main.css" rel="stylesheet">
+
+	<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101223344);</script>
+	<script async src="//static.getclicky.com/js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyBd8fuYjowHrpbHKh0UPHK5czwZkJXj-7g",
+	    authDomain: "dracelbat.firebaseapp.com",
+	    databaseURL: "https://dracelbat.firebaseio.com",
+	    projectId: "dracelbat",
+	    storageBucket: "dracelbat.appspot.com",
+	    messagingSenderId: "973405874098"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css"/>
+</head>
+<body>
+
+<div id="container" class="container">
+	<div class="flair">
+		<a href="https://stackoverflow.com/users/112620/brandon-henry"><img src="https://stackoverflow.com/users/flair/112620.png" width="180" height="50" alt="Brandon Henry on Stack Overflow" title="Brandon Henry on Stack Overflow"></a>
+		<a class='giant' href='https://github.com/bhenry' title="bhenry on github"><i class="fab fa-git-square"></i></a>
+	</div>
+	<div id="game" class="noselect">
+		<div id="board">
+			<div class="resizer ui-resizable-s">
+				<i class="fas fa-grip-lines"></i>
+			</div>
+		</div>
+		<div id="hand">
+			<div class="resizer ui-resizable-s">
+				<i class="fas fa-grip-lines"></i>
+			</div>
+		</div>
+	</div>
+	<div id="controls" class="giant">
+		<i id="resetdeck" class="fas fa-sync" title="Reset deck (52 cards shuffled in one pile)"></i>
+	</div>
+	<div id="footer">
+		<p>
+			<a href="mailto:brandonmhenry+bug@gmail.com?subject=bug at brandonhenry.net">
+				report
+				<i title="bugs" class="fas fa-bug"></i>
+				<i title="bugs" class="fas fa-bug"></i>
+				<i title="bugs" class="fas fa-bug"></i>
+				to brandonmhenry@gmail.com
+			</a>
+		</p>
+	</div>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery-ui.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.easyModal.js"></script>
+
+<script src="assets/js/util.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/controls.js"></script>
+
+<script>
+	firebase.auth().signInAnonymously().catch(function(error) {
+	  var errorCode = error.code;
+	  var errorMessage = error.message;
+	  console.log(errorMessage);
+	  console.log(errorCode);
+	});
+
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+	    game.isAnonymous = user.isAnonymous;
+	    game.uid = user.uid;
+	  }
+		console.log(game.uid);
+		game.start();
+	});
+</script>
+</body>
+</html>
